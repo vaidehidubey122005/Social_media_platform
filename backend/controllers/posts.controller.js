@@ -4,10 +4,10 @@ export const activeCheck = async(req , res) =>{
     return res.status(200).json({message: "RUNNING"})
 }
 
-const register = async(req , res) =>{
+export const register = async(req , res) =>{
 
 
-    try{
+    try{  
         const {name , email , password} = req.body;
 
         if(!name || !email || !password ||!username){
@@ -16,6 +16,19 @@ const register = async(req , res) =>{
 
         const user = await User.finOne({email
         });
+
+        const hashedPassword = await bcrypt.hash(password,10);
+        const newUser = new User({
+            name,
+            email,
+            password: hashedPassword,
+            username
+        });
+        await newUser.save();
+        const profilr = new Profile({
+            userId: newUser._id,
+        });
+        return res.status(201).json({message: "User registered successfully"})
     }
     catch(error){
         console.log(error);
