@@ -25,7 +25,7 @@ const WorkSchema = new mongoose.Schema({
         default:''
     },
     years:{
-        type:string,
+        type:String,
         default:''
     },
 });
