@@ -7,12 +7,11 @@ import userRoutes from "./routes/userroutes.js";
 dotenv.config();
 const app = express();
 app.use(cors());
-
+app.use(express.json());
 
 app.use("/api/posts", postsRoutes);
 app.use("/api/users", userRoutes);
 
-app.use(express.json());
 
 const start =async ()=>{
     const connectDB= await mongoose.connect("mongodb+srv://vaidehidubey121_db_user:gauri122005@apnaconnection.omzhkwt.mongodb.net/?appName=ApnaConnection")
