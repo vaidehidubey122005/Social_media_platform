@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { register, login } from "../controllers/user.controller.js";
-
+import multer from "multer";
 const router = Router();
 
 const storage = multer.diskStorage({
@@ -11,7 +11,7 @@ const storage = multer.diskStorage({
         cb(null, file.originalname);
     }
 });
-
+const upload = multer({ storage: storage });
 
 router.post("/register", register);
 router.post("/login", login);
