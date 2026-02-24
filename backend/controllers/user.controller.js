@@ -59,3 +59,17 @@ export const login = async(req , res) =>{
         return res.status(500).json({message: "Internal Server Error"})
     }
 }
+export const uploSadProfilePicture = async(req , res) =>{
+    const {token }= req.body;
+    try{
+        const user = await User.findOne({token: token});
+        if(!user){
+            return res.status(404).json({message: "User not found"})
+        }
+        return res.json({user})
+    }catch(error){
+        console.log(error);
+        return res.status(500).json({message: "Internal Server Error"})
+    }
+}
+    
