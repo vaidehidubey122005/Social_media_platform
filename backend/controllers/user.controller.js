@@ -66,7 +66,9 @@ export const uploSadProfilePicture = async(req , res) =>{
         if(!user){
             return res.status(404).json({message: "User not found"})
         }
-        user.profilePicture = req.file.filename;;
+        user.profilePicture = req.file.filename;
+        await user.save();
+        return res.json({message: "Profile picture uploaded successfully"})
     }catch(error){
         console.log(error);
         return res.status(500).json({message: "Internal Server Error"})
