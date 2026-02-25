@@ -3,8 +3,6 @@ import User from "../models/user.model.js";
 import bcrypt from "bcrypt";
 
 export const register = async(req , res) =>{
-
-
     try{  
         const {name , email , password} = req.body;
 
@@ -32,9 +30,7 @@ export const register = async(req , res) =>{
         console.log(error);
         return res.status(500).json({message: "Internal Server Error"})
     }
-
 }
-
 export const login = async(req , res) =>{
     try{
         const {email , password} = req.body;
