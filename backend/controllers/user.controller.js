@@ -1,7 +1,6 @@
 import Profile from "../models/profile.model.js";
 import User from "../models/user.model.js";
 import bcrypt from "bcrypt";
-
 export const register = async(req , res) =>{
     try{  
         const {name , email , password} = req.body;
@@ -9,7 +8,6 @@ export const register = async(req , res) =>{
         if(!name || !email || !password ||!username){
             return res.status(400).json({message: "Please fill all the fields"})
         }
-
         const user = await User.finOne({email
         });
 
@@ -65,7 +63,8 @@ export const uploSadProfilePicture = async(req , res) =>{
         user.profilePicture = req.file.filename;
         await user.save();
         return res.json({message: "Profile picture uploaded successfully"})
-    }catch(error){
+    }
+    catch(error){
         console.log(error);
         return res.status(500).json({message: "Internal Server Error"})
     }
