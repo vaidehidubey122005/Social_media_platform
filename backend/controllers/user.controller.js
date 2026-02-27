@@ -3,21 +3,16 @@ import User from "../models/user.model.js";
 import bcrypt from "bcrypt";
 import crypto from "crypto";
 
-/* ===========================
-   REGISTER USER
-=========================== */
 export const register = async (req, res) => {
     try {
         const { name, email, password, username } = req.body;
 
-        // Validate input
         if (!name || !email || !password || !username) {
             return res.status(400).json({
                 message: "Please fill all the fields"
             });
         }
 
-        // Check if user already exists
         const existingUser = await User.findOne({ email });
         if (existingUser) {
             return res.status(400).json({
@@ -25,10 +20,9 @@ export const register = async (req, res) => {
             });
         }
 
-        // Hash password
+
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        // Create new user
         const newUser = new User({
             name,
             email,
@@ -36,9 +30,7 @@ export const register = async (req, res) => {
             username
         });
 
-        await newUser.save();
-
-        // Create profile
+  
         const profile = new Profile({
             userId: newUser._id,
         });
@@ -58,9 +50,6 @@ export const register = async (req, res) => {
 };
 
 
-/* ===========================
-   LOGIN USER
-=========================== */
 export const login = async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -85,7 +74,6 @@ export const login = async (req, res) => {
             });
         }
 
-        // Generate token
         const token = crypto.randomBytes(32).toString("hex");
 
         user.token = token;
@@ -102,9 +90,6 @@ export const login = async (req, res) => {
 };
 
 
-/* ===========================
-   UPLOAD PROFILE PICTURE
-=========================== */
 export const uploadProfilePicture = async (req, res) => {
     try {
         const { token } = req.body;
