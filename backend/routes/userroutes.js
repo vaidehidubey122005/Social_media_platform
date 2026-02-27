@@ -16,9 +16,17 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage });
-router.route("/update_profile_picture")
-.post(upload.single("profile_picture"), uploadProfilePicture);
-router.post("/register", upload.single("profile_picture"), register);
+
+router.post("/update_profile_picture",
+    upload.single("profile_picture"),
+    uploadProfilePicture
+);
+
+router.post("/register",
+    upload.single("profile_picture"),
+    register
+);
+
 router.post("/login", login);
 
 export default router;
