@@ -1,5 +1,6 @@
 import { Router } from "express";
-import { register, login } from "../controllers/user.controller.js";
+import { register, login, uploadProfilePicture } 
+from "../controllers/user.controller.js";
 import multer from "multer";
 import path from "path";
 
