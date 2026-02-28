@@ -1,5 +1,4 @@
-POST /api/users/register HTTP/1.1
-Host: localhost:9090
+POST http://localhost:9090/api/users/register
 Content-Type: application/json
 
 {
@@ -8,10 +7,13 @@ Content-Type: application/json
   "email": "vaidehidubey282@gmail.com",
   "name": "Vaidehi Dubey"
 }
+
 ###
-POST  http://localhost:9090/api/users/login HTTP/1.1
+
+POST http://localhost:9090/api/users/login
 Content-Type: application/json
+
 {
   "email":"vaidehidubey282@gmail.com",
-  "password": "a"
+  "password": "123456"
 }

@@ -30,7 +30,7 @@ export const register = async (req, res) => {
             username
         });
 
-  
+        await newUser.save();
         const profile = new Profile({
             userId: newUser._id,
         });
@@ -75,7 +75,7 @@ export const login = async (req, res) => {
         }
 
         const token = crypto.randomBytes(32).toString("hex");
-
+        await User.updateOne({ _id: user._id }, { token });
         user.token = token;
         await user.save();
 
@@ -92,7 +92,9 @@ export const login = async (req, res) => {
 
 export const uploadProfilePicture = async (req, res) => {
     try {
-        const { token } = req.body;
+        const { token, ...newUserData } = req.body;
+        
+        const user = await User.findOne({token : token});
 
         if (!token) {
             return res.status(400).json({
@@ -100,27 +102,25 @@ export const uploadProfilePicture = async (req, res) => {
             });
         }
 
-        const user = await User.findOne({ token });
-
         if (!user) {
             return res.status(404).json({
                 message: "User not found"
             });
         }
-
-        if (!req.file) {
-            return res.status(400).json({
-                message: "No file uploaded"
-            });
-        }
-
+        const { username, name, email} = newUserData;
+        
         user.profilePicture = req.file.filename;
         await user.save();
-
-        return res.json({
-            message: "Profile picture uploaded successfully"
-        });
-
+        const existingUser = await User.findOne({ $or: [{ email }, { username }] });
+       if(existingUser) {
+        if(existingUser._id.toString() !== user._id.toString()) {
+            return res.status(400).json({
+                message: "User with this email or username already exists"
+            });
+        }
+        }
+    Object.assign(user, newUserData);
+    await user.save();
     } catch (error) {
         console.log(error);
         return res.status(500).json({

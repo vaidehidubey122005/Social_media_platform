@@ -1,58 +1,56 @@
 import mongoose from "mongoose";
-
 const educationSchema = new mongoose.Schema({
-    school:{
-        type:String,
-        required:true
+    school: {
+        type: String,
+        required: true
     },
-    degree:{
-        type:String,
-        default:''
+    degree: {
+        type: String,
+        default: ''
     },
-    fieldOfStudy:{
-        type:String,
-        default:''
-    },
+    fieldOfStudy: {
+        type: String,
+        default: ''
+    }
 });
-
-const WorkSchema = new mongoose.Schema({
-    company:{
-        type:String,
-        required:true
+const workSchema = new mongoose.Schema({
+    company: {
+        type: String,
+        required: true
     },
-    position:{
-        type:String,
-        default:''
+    position: {
+        type: String,
+        default: ''
     },
-    years:{
-        type:String,
-        default:''
-    },
+    years: {
+        type: String,
+        default: ''
+    }
 });
-
-const ProfileSchema = new mongoose.Schema   ({
-    userId:{
+const profileSchema = new mongoose.Schema({
+    userId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref:'User'
+        ref: 'User',
+        required: true
     },
-    bio:{
-        type:String,
-        default:''
+    bio: {
+        type: String,
+        default: ''
     },
-    currentPost:
-    {
-        type:String,
-        default:''
+    currentPost: {
+        type: String,
+        default: ''
     },
-    postWork:{
-        type:[WorkSchema],
-        default:'',
+    postWork: {
+        type: [workSchema],
+        default: []
     },
-    education:{
-        type:[educationSchema],
-        default:[]
-    },
+    education: {
+        type: [educationSchema],
+        default: []
+    }
 });
 
-const ProfileModel = mongoose.model("Profile",ProfileSchema);
+const ProfileModel = mongoose.model("Profile", profileSchema);
+
 export default ProfileModel;
