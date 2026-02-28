@@ -89,8 +89,32 @@ export const login = async (req, res) => {
     }
 };
 
-
 export const uploadProfilePicture = async (req, res) => {
+    try {
+        const { token } = req.body;
+        if (!token) {
+            return res.status(400).json({
+                message: "Token is required"
+            });
+        }
+        const user = await User.find
+        ({ token });
+        if (!user) {
+            return res.status(404).json({
+                message: "User not found"
+            });
+        }
+        user.profilePicture = req.file.filename;
+        await user.save();
+        return res.json({ message: "Profile picture updated successfully" });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message: "Internal Server Error"
+        });
+    }
+};
+export const updatedUserProfile = async (req, res) => {
     try {
         const { token, ...newUserData } = req.body;
         
@@ -121,6 +145,37 @@ export const uploadProfilePicture = async (req, res) => {
         }
     Object.assign(user, newUserData);
     await user.save();
+    return res.json({message: "User updated successfully"});
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message: "Internal Server Error" });
+    }
+}
+
+export const getUserAndProfile = async (req, res) => {
+    try {
+        const token = req.headers.token;
+
+        if (!token) {
+            return res.status(400).json({
+                message: "Token is required"
+            });
+        }
+
+        const user = await User.findOne({ token });
+
+        if (!user) {
+            return res.status(404).json({
+                message: "User not found"
+            });
+        }
+
+        const userProfile = await Profile.findOne({ userId: user._id })
+            .populate("userId", "name username email profilePicture");
+
+        return res.json({ user: userProfile });
+
     } catch (error) {
         console.log(error);
         return res.status(500).json({

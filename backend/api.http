@@ -17,3 +17,7 @@ Content-Type: application/json
   "email":"vaidehidubey282@gmail.com",
   "password": "123456"
 }
+
+###
+GET http://localhost:9090/api/users/get_user_and_profile
+token:c91e616ea011965b6306d46f4c1eed9e4d0689f94325722f90c07b645bfa779d
