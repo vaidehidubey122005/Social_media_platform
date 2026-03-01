@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-
 const connectionRequest = new mongoose.Schema({
     userId:{
         type: mongoose.Schema.Types.ObjectId,
@@ -13,7 +12,6 @@ const connectionRequest = new mongoose.Schema({
         type: Boolean,
         default: null,
     }
-
 });
 const ConnectionModel = mongoose.model("Connection", connectionRequest);
 export default ConnectionModel;
