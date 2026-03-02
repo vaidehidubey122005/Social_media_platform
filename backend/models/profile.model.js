@@ -13,6 +13,7 @@ const educationSchema = new mongoose.Schema({
         default: ''
     }
 });
+
 const workSchema = new mongoose.Schema({
     company: {
         type: String,
@@ -27,6 +28,7 @@ const workSchema = new mongoose.Schema({
         default: ''
     }
 });
+
 const profileSchema = new mongoose.Schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId,
@@ -52,5 +54,4 @@ const profileSchema = new mongoose.Schema({
 });
 
 const ProfileModel = mongoose.model("Profile", profileSchema);
-
 export default ProfileModel;
