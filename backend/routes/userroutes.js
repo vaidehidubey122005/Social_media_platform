@@ -26,6 +26,4 @@ router.route('/register').post(register);
 router.route('/login').post(login);
 router.route('/user_update').post(updatedUserProfile)
 router.route('/get_user_and_profile').get(getUserAndProfile)
-
-
 export default router;
