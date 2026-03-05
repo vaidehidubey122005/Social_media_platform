@@ -183,3 +183,32 @@ export const getUserAndProfile = async (req, res) => {
         });
     }
 };
+
+export const updateProfileData = async (req, res)=> {
+    try{
+        const {token, ...newProfileData} = req.body;
+        const userProfile = await User.findOne ({token: token});
+        if(!userProfile
+        ) {
+            return res.status(404).json({
+                message: "User not found"
+            });
+        }   
+
+        const profile_to_update = await Profile.findOne({userId: userProfile._id});
+        if(!profile_to_update) {
+            return res.status(404).json({
+                message: "Profile not found"
+            });
+        }
+
+        Object.assign(profile_to_update, newProfileData);
+        await profile_to_update.save();
+        return res.json({message: "Profile updated successfully"});
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message: "Internal Server Error"
+        });
+    }
+}
