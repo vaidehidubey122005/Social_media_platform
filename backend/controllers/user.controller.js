@@ -150,6 +150,7 @@ export const updatedUserProfile = async (req, res) => {
     }
 }
 
+
 export const getUserAndProfile = async (req, res) => {
     try {
         const token = req.headers.token;
@@ -180,6 +181,7 @@ export const getUserAndProfile = async (req, res) => {
         });
     }
 };
+
 
 export const updateProfileData = async (req, res)=> {
     try{
