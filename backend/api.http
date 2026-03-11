@@ -18,5 +18,5 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:9090/api/users/get_user_and_profile
-token:c91e616ea011965b6306d46f4c1eed9e4d0689f94325722f90c07b645bfa779d
+GET http://localhost:9090/api/users/get_user_profile
+token:64873da10c63d0e283a243ec7d81d3b98eb4d6cfb79c8b063249f75780e36086
