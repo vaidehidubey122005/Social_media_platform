@@ -34,9 +34,7 @@ router.post("/login", login);
 
 router.get("/get_user_profile", getUserAndProfile);
 router.post("/update_profile", updatedUserProfile);
-
 /* ---------- Profile Picture Upload ---------- */
-
 router.post(
   "/update_profile_picture",
   upload.single("profile_picture"),
