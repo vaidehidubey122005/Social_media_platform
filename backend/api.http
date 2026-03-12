@@ -1,22 +1,18 @@
 POST http://localhost:9090/api/users/register
 Content-Type: application/json
-
 {
   "username": "vaidehi",
   "password": "123456",
   "email": "vaidehidubey282@gmail.com",
   "name": "Vaidehi Dubey"
 }
-
 ###
 POST http://localhost:9090/api/users/login
 Content-Type: application/json
-
 {
   "email":"vaidehidubey282@gmail.com",
   "password": "123456"
 }
-
 ###
 GET http://localhost:9090/api/users/get_user_profile
 token:64873da10c63d0e283a243ec7d81d3b98eb4d6cfb79c8b063249f75780e36086
