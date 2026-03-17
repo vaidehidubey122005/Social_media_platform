@@ -7,6 +7,7 @@ Content-Type: application/json
   "name": "Vaidehi Dubey"
 }
 ###
+
 POST http://localhost:9090/api/users/login
 Content-Type: application/json
 {
