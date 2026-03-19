@@ -1,19 +1,33 @@
+### Register User
 POST http://localhost:9090/api/users/register
 Content-Type: application/json
+
 {
-  "username": "vaidehi",
-  "password": "123456",
-  "email": "vaidehidubey282@gmail.com",
-  "name": "Vaidehi Dubey"
+  "username": "rahul",
+  "password": "a",
+  "email": "rahul@gmail.com",
+  "name": "rahul"
 }
+
 ###
 
+### Login User
 POST http://localhost:9090/api/users/login
 Content-Type: application/json
+
 {
-  "email":"vaidehidubey282@gmail.com",
-  "password": "123456"
+  "email": "rahul@gmail.com",
+  "password": "a"
 }
+
 ###
+
+### Get User Profile
 GET http://localhost:9090/api/users/get_user_profile
-token:64873da10c63d0e283a243ec7d81d3b98eb4d6cfb79c8b063249f75780e36086
+token: 5412f36938ab01436dc195d79bdc43189f57f4ede262aa07e37fd2632919b1dd
+
+###
+
+### Get All Users
+GET http://localhost:9090/api/users/get_all_users
+###
