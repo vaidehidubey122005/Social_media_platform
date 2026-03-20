@@ -34,6 +34,8 @@ router.get("/get_user_profile", getUserAndProfile);
 router.post("/update_profile", updatedUserProfile);
 router.get("/get_all_users", getAllUserProfile);
 
+router.route("/user/download_resume");
+
 
 
 export default router;

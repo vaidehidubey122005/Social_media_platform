@@ -13,9 +13,10 @@ const convertUserDataTOPDF = (userData) => {
       const stream = fs.createWriteStream("uploads/"+outputPath);
 
       doc.pipe(stream);
+
+      doc.addPage
 }
 
-  
 export const register = async (req, res) => {
   try {
     const { name, email, password, username } = req.body;
