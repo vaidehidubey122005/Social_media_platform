@@ -12,9 +12,6 @@ import multer from "multer";
 import path from "path";
 
 const router = Router();
-
-/* ---------- Multer Configuration ---------- */
-
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, path.resolve("profile_picture"));
@@ -25,22 +22,18 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage });
-
-/* ---------- Authentication Routes ---------- */
-
-router.post("/register", register);
-router.post("/login", login);
-
-/* ---------- User Profile Routes ---------- */
-
-router.get("/get_user_profile", getUserAndProfile);
-router.post("/update_profile", updatedUserProfile);
-router.get("/get_all_users", getAllUserProfile);
-/* ---------- Profile Picture Upload ---------- */
 router.post(
   "/update_profile_picture",
   upload.single("profile_picture"),
   uploadProfilePicture
 );
+router.post("/register", register);
+router.post("/login", login);
+
+router.get("/get_user_profile", getUserAndProfile);
+router.post("/update_profile", updatedUserProfile);
+router.get("/get_all_users", getAllUserProfile);
+
+
 
 export default router;

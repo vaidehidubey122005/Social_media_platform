@@ -22,8 +22,7 @@ Content-Type: application/json
 ###
 ### Get User Profile
 GET http://localhost:9090/api/users/get_user_profile
-token: 5412f36938ab01436dc195d79bdc43189f57f4ede262aa07e37fd2632919b1dd
-
+token: 3a9b8159fbd28ccd67dfb11dd04adf712352d07f56e144bda982e74ac03663d1
 ###
 ### Get All Users
 GET http://localhost:9090/api/users/get_all_users

@@ -2,9 +2,20 @@ import Profile from "../models/profile.model.js";
 import User from "../models/user.model.js";
 import bcrypt from "bcrypt";
 import crypto from "crypto";
+import PDFDocument from "pdfkit";
+import fs from "fs";
 
-/* ---------- REGISTER USER ---------- */
+const convertUserDataTOPDF = (userData) => {
+      const doc = new PDFDocument;
+        
+      const outputPath = crypto.randomBytes(32).toString("hex")+".pdf";
 
+      const stream = fs.createWriteStream("uploads/"+outputPath);
+
+      doc.pipe(stream);
+}
+
+  
 export const register = async (req, res) => {
   try {
     const { name, email, password, username } = req.body;
@@ -285,3 +296,17 @@ export const getAllUserProfile = async (req, res) => {
     });
   } 
 };
+
+export const downloadProfile = async (req, res) => {
+  const user_id = req.query.id;
+
+  const userProfile = await Profile.findOne({ userId: user_id }).populate("userId", "name username email profilePicture");
+
+  let a = await convertUserDataTOPDF(userProfile);
+
+  return res.json({
+    "message ": a
+  });
+
+
+}
