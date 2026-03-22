@@ -36,6 +36,4 @@ router.get("/get_all_users", getAllUserProfile);
 
 router.route("/user/download_resume");
 
-
-
 export default router;
