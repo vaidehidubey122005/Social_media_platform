@@ -32,6 +32,7 @@ const convertUserDataTOPDF = (userData) => {
   });
   doc.end();
 
+  return outputPath
 }
 
 export const register = async (req, res) => {
