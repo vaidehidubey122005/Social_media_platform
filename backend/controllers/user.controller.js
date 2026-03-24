@@ -4,51 +4,32 @@ import bcrypt from "bcrypt";
 import crypto from "crypto";
 import PDFDocument from "pdfkit";
 import fs from "fs";
-import path from "path";
+
 
 const convertUserDataTOPDF = (userData) => {
-  return new Promise((resolve, reject) => {
-    const uploadsDir = path.resolve("uploads");
-    fs.mkdirSync(uploadsDir, { recursive: true });
+  const doc = new PDFDocument();
 
-    const outputFileName = `${crypto.randomBytes(32).toString("hex")}.pdf`;
-    const outputPath = path.join(uploadsDir, outputFileName);
-    const doc = new PDFDocument({ margin: 50 });
-    const stream = fs.createWriteStream(outputPath);
+  const outputPath = crypto.randomBytes(32).toString("hex") + ".pdf";
 
-    doc.pipe(stream);
+  const stream = fs.createWriteStream("uploads/" + outputPath);
 
-    const basicInfo = [
-      ["Name", userData?.userId?.name],
-      ["Username", userData?.userId?.username],
-      ["Email", userData?.userId?.email],
-      ["Bio", userData?.bio],
-      ["Current Post", userData?.currentPost],
-      ["Past Work", userData?.pastWork],
-      ["Education", userData?.education],
-      ["Skills", userData?.skills],
-    ];
+  doc.pipe(stream);
 
-    doc.fontSize(22).text("User Profile", { underline: true });
-    doc.moveDown();
+  doc.image("uploads/" + userData.userId.profilePicture, {align: "center", width: 100, height: 100 });
 
-    basicInfo.forEach(([label, value]) => {
-      doc
-        .font("Helvetica-Bold")
-        .fontSize(12)
-        .text(`${label}: `, { continued: true })
-        .font("Helvetica")
-        .text(value || "N/A");
-      doc.moveDown(0.5);
-    });
+  doc.fontSize(20).text(userData.userId.name, { align: "center" });
+  doc.fontSize(16).text(`Username: ${userData.userId.username}`, { align: "center" });
+  doc.fontSize(16).text(`Email: ${userData.userId.email}`, { align: "center" });
+  doc.fontSize(14).text(`Bio: ${userData.bio || "N/A"}`, { align: "center" });
+  doc.fontSize(14).text(`Current Position: ${userData.currentPosition || "N/A"}`, { align: "center" });
 
-    doc.end();
-
-    stream.on("finish", () => resolve(outputFileName));
-    stream.on("error", reject);
-    doc.on("error", reject);
+  doc.fontSize(14).text("Past Work: ");
+  userData.pastWork.forEach((work, index) => {
+    doc.fontSize(14).text(`${index+1}. ${work}`);
   });
-};
+  doc.end();
+
+}
 
 export const register = async (req, res) => {
   try {
