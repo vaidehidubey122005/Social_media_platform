@@ -4,18 +4,51 @@ import bcrypt from "bcrypt";
 import crypto from "crypto";
 import PDFDocument from "pdfkit";
 import fs from "fs";
+import path from "path";
 
 const convertUserDataTOPDF = (userData) => {
-      const doc = new PDFDocument;
-        
-      const outputPath = crypto.randomBytes(32).toString("hex")+".pdf";
+  return new Promise((resolve, reject) => {
+    const uploadsDir = path.resolve("uploads");
+    fs.mkdirSync(uploadsDir, { recursive: true });
 
-      const stream = fs.createWriteStream("uploads/"+outputPath);
+    const outputFileName = `${crypto.randomBytes(32).toString("hex")}.pdf`;
+    const outputPath = path.join(uploadsDir, outputFileName);
+    const doc = new PDFDocument({ margin: 50 });
+    const stream = fs.createWriteStream(outputPath);
 
-      doc.pipe(stream);
+    doc.pipe(stream);
 
-      doc.addPage
-}
+    const basicInfo = [
+      ["Name", userData?.userId?.name],
+      ["Username", userData?.userId?.username],
+      ["Email", userData?.userId?.email],
+      ["Bio", userData?.bio],
+      ["Current Post", userData?.currentPost],
+      ["Past Work", userData?.pastWork],
+      ["Education", userData?.education],
+      ["Skills", userData?.skills],
+    ];
+
+    doc.fontSize(22).text("User Profile", { underline: true });
+    doc.moveDown();
+
+    basicInfo.forEach(([label, value]) => {
+      doc
+        .font("Helvetica-Bold")
+        .fontSize(12)
+        .text(`${label}: `, { continued: true })
+        .font("Helvetica")
+        .text(value || "N/A");
+      doc.moveDown(0.5);
+    });
+
+    doc.end();
+
+    stream.on("finish", () => resolve(outputFileName));
+    stream.on("error", reject);
+    doc.on("error", reject);
+  });
+};
 
 export const register = async (req, res) => {
   try {
@@ -293,15 +326,34 @@ export const getAllUserProfile = async (req, res) => {
 };
 
 export const downloadProfile = async (req, res) => {
-  const user_id = req.query.id;
+  try {
+    const user_id = req.query.id;
 
-  const userProfile = await Profile.findOne({ userId: user_id }).populate("userId", "name username email profilePicture");
+    if (!user_id) {
+      return res.status(400).json({
+        message: "User id is required"
+      });
+    }
 
-  let a = await convertUserDataTOPDF(userProfile);
+    const userProfile = await Profile.findOne({ userId: user_id })
+      .populate("userId", "name username email profilePicture");
 
-  return res.json({
-    "message ": a
-  });
+    if (!userProfile) {
+      return res.status(404).json({
+        message: "Profile not found"
+      });
+    }
 
+    const pdfFileName = await convertUserDataTOPDF(userProfile);
 
-}
+    return res.json({
+      message: "PDF generated successfully",
+      pdfUrl: `/uploads/${pdfFileName}`
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      message: "Internal Server Error"
+    });
+  }
+};
