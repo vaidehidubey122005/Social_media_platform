@@ -25,7 +25,10 @@ const convertUserDataTOPDF = (userData) => {
 
   doc.fontSize(14).text("Past Work: ");
   userData.pastWork.forEach((work, index) => {
-    doc.fontSize(14).text(`${index+1}. ${work}`);
+    doc.fontSize(14).text(`Company Name: ${work.companyName}`);
+    doc.fontSize(14).text(`Position: ${work.position}`);
+    doc.fontSize(14).text(`Years: ${work.years}`);
+    doc.moveDown(0.5);
   });
   doc.end();
 
