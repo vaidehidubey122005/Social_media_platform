@@ -119,10 +119,6 @@ export const login = async (req, res) => {
     });
   }
 };
-
-
-/* ---------- UPLOAD PROFILE PICTURE ---------- */
-
 export const uploadProfilePicture = async (req, res) => {
   try {
     const { token } = req.body;
