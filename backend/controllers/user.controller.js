@@ -323,6 +323,10 @@ export const downloadProfile = async (req, res) => {
     const userProfile = await Profile.findOne({ userId: user_id })
       .populate("userId", "name username email profilePicture");
 
+      let a = await convertUserDataTOPDF(userProfile);
+
+      return res.json({"message" : a})
+
     if (!userProfile) {
       return res.status(404).json({
         message: "Profile not found"
@@ -335,7 +339,8 @@ export const downloadProfile = async (req, res) => {
       message: "PDF generated successfully",
       pdfUrl: `/uploads/${pdfFileName}`
     });
-  } catch (error) {
+  } 
+  catch (error) {
     console.log(error);
     return res.status(500).json({
       message: "Internal Server Error"
