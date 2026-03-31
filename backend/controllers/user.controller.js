@@ -309,7 +309,6 @@ export const getAllUserProfile = async (req, res) => {
     });
   } 
 };
-
 export const downloadProfile = async (req, res) => {
   try {
     const user_id = req.query.id;
