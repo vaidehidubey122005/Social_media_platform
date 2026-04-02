@@ -4,8 +4,6 @@ import bcrypt from "bcrypt";
 import crypto from "crypto";
 import PDFDocument from "pdfkit";
 import fs from "fs";
-
-
 const convertUserDataTOPDF = (userData) => {
   const doc = new PDFDocument();
 
