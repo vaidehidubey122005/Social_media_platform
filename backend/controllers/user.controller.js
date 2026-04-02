@@ -32,7 +32,6 @@ const convertUserDataTOPDF = (userData) => {
 
   return outputPath
 }
-
 export const register = async (req, res) => {
   try {
     const { name, email, password, username } = req.body;
@@ -50,7 +49,6 @@ export const register = async (req, res) => {
         message: "User already exists"
       });
     }
-
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const newUser = new User({
@@ -79,7 +77,6 @@ export const register = async (req, res) => {
     });
   }
 };
-
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -126,7 +123,6 @@ export const uploadProfilePicture = async (req, res) => {
         message: "Token is required"
       });
     }
-
     const user = await User.findOne({ token });
 
     if (!user) {
@@ -156,10 +152,6 @@ export const uploadProfilePicture = async (req, res) => {
     });
   }
 };
-
-
-/* ---------- UPDATE USER PROFILE ---------- */
-
 export const updatedUserProfile = async (req, res) => {
   try {
     const { token, ...newUserData } = req.body;
@@ -208,9 +200,6 @@ export const updatedUserProfile = async (req, res) => {
   }
 };
 
-
-/* ---------- GET USER + PROFILE ---------- */
-
 export const getUserAndProfile = async (req, res) => {
   try {
     const token = req.headers.token;
@@ -243,9 +232,6 @@ export const getUserAndProfile = async (req, res) => {
     });
   }
 };
-
-
-/* ---------- UPDATE PROFILE DATA ---------- */
 
 export const updateProfileData = async (req, res) => {
   try {
