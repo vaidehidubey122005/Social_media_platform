@@ -200,6 +200,7 @@ export const updatedUserProfile = async (req, res) => {
   }
 };
 
+
 export const getUserAndProfile = async (req, res) => {
   try {
     const token = req.headers.token;
